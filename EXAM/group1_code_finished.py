@@ -55,7 +55,8 @@ crsHelper.to_srid(3857)
 fields = {
     "place": "String",
     "place_Label": "String",
-    "elevation": "Integer"
+    "elevation": "Integer",
+    "place_Description": "String"
 }
 
 #location not because this is saved as the point
@@ -65,6 +66,18 @@ entitiesLayer = HVectorLayer.new("locations", "Point", "EPSG:3857", fields)
 for entity in result['results']['bindings']:
     place = entity['place']['value']
     place_Label = entity['placeLabel']['value']
+    
+    if 'placeDescription' in entity:
+        place_Description = entity['placeDescription']['value']
+    else:
+        place_Description = "no Description"
+    
+    # if 'placeDescription' in entity:
+    #     placeDescriptionDict = entity.get('placeDescription', {})
+    #     place_Description = placeDescriptionDict['value']
+    # else:
+    #     place_Description = "No Description"
+        
     elevation = float(entity['elev']['value'])
     location = entity['location']['value']
     
@@ -79,7 +92,7 @@ for entity in result['results']['bindings']:
     Point = crsHelper.transform(POINT)
     
     if elevation > 10:
-        entitiesLayer.add_feature(Point, [place, place_Label, elevation])
+        entitiesLayer.add_feature(Point, [place, place_Label, elevation, place_Description,])
     
 crsHelper = HCrs()
 crsHelper.from_srid(4326)#open street map data (latlong)
@@ -88,8 +101,6 @@ crsHelper.to_srid(3857)#reference system for webmapping adapted to the all word
 hopenotError = entitiesLayer.dump_to_gpkg(path, overwrite = True)
 if hopenotError:
     print(hopenotError)
-
-# # place_Description = location['placeDescription']['value']
 
 # geopackagePath = folder + "locations.gpkg"
 # Points_Italy = "locations"
