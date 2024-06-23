@@ -123,3 +123,22 @@ entitiesLayer.set_style(styles1)
 
 HMap.add_layer(entitiesLayer)
 HMap.add_layer(countriesLayer)
+
+# create PDF layout
+printer = HPrinter(iface)
+
+mapProperties = {
+    "x": 5,
+    "y": 25,
+    "width": 285,
+    "height": 180,
+    "extent": [1230000, 4300000, 1310644, 6000000], 
+    "frame": True
+}
+
+printer.add_map(**mapProperties)
+
+outputpdf = f"{folder}/group1_exam_finalmap.pdf"
+printer.dump_to_pdf(outputpdf)
+
+
