@@ -71,12 +71,6 @@ for entity in result['results']['bindings']:
         place_Description = entity['placeDescription']['value']
     else:
         place_Description = "no Description"
-    
-    # if 'placeDescription' in entity:
-    #     placeDescriptionDict = entity.get('placeDescription', {})
-    #     place_Description = placeDescriptionDict['value']
-    # else:
-    #     place_Description = "No Description"
         
     elevation = float(entity['elev']['value'])
     location = entity['location']['value']
@@ -101,10 +95,7 @@ crsHelper.to_srid(3857)#reference system for webmapping adapted to the all word
 hopenotError = entitiesLayer.dump_to_gpkg(path, overwrite = True)
 if hopenotError:
     print(hopenotError)
-
-# geopackagePath = folder + "locations.gpkg"
-# Points_Italy = "locations"
-
+    
 # Countries border style
 
 styles = HFill("Transparent") + HStroke("black", 0.5)
@@ -157,6 +148,27 @@ labelProperties = {
     "italic": False
 }
 printer.add_label(**labelProperties)
+
+legendProperties = {
+    "x" : 215,
+    "y" : 30,
+    "width" : 150,
+    "height" : 100,
+    "max_symbol_size": 3
+}
+
+printer.add_legend(**legendProperties)
+
+scalebarProperties = {
+    "x": 10,
+    "y": 190,
+    "units": "km",
+    "segments": 4,
+    "unit_per_segment": 100,
+    "style": "Single Box",
+    "font_size": 12
+}
+printer.add_scalebar(**scalebarProperties)
 
 outputpdf = f"{folder}/group1_exam_finalmap.pdf"
 printer.dump_to_pdf(outputpdf)
