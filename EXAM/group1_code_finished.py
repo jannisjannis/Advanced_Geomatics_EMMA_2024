@@ -135,8 +135,17 @@ mapProperties = {
     "extent": [1230000, 4300000, 1310644, 6000000], 
     "frame": True
 }
-
 printer.add_map(**mapProperties)
+
+labelProperties = {
+    "x": 7,
+    "y": 10,
+    "text": "Group 1: Final map of places in Italy above 10m elevation based on query result",
+    "font_size": 21,
+    "bold": True,
+    "italic": False
+}
+printer.add_label(**labelProperties)
 
 outputpdf = f"{folder}/group1_exam_finalmap.pdf"
 printer.dump_to_pdf(outputpdf)
